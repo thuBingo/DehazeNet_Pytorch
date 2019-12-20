@@ -11,7 +11,7 @@ import cv2
 BATCH_SIZE = 128
 EPOCH = 10
 
-
+# BRelu used for GPU. Need to add that reference in pytorch source file.
 class BRelu(nn.Hardtanh):
 	def __init__(self, inplace=False):
 		super(BRelu, self).__init__(0., 1., inplace)
@@ -48,7 +48,7 @@ class DehazeNet(nn.Module):
 		x, y = torch.max(x, dim=2, keepdim=True)
 		out = x.reshape(x.shape[0],-1, x.shape[3], x.shape[4])
 		return out
-	
+	#BRelu used to CPU. It can't work on GPU.
 	def BRelu(self, x):
 		x = torch.max(x, torch.zeros(x.shape[0],x.shape[1],x.shape[2],x.shape[3]))
 		x = torch.min(x, torch.ones(x.shape[0],x.shape[1],x.shape[2],x.shape[3]))
